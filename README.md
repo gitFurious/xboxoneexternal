@@ -11,7 +11,8 @@ Requirements
 
 1. Xbox One.
 2. External Hard drive greater than 256GB.
-2. Python 2.7.
+3. Python 2.7.
+4. Administrator rights.
 
 Instructions
 ------------
@@ -21,6 +22,9 @@ Instructions
 3. Run the script with the device name as the first parameter.
 4. Power cycle the external hard drive.
  
+
+![cmd](http://i.imgur.com/oNZOATU.png)
+
 
 What to Expect
 --------------
