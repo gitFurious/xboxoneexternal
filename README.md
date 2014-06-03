@@ -1,33 +1,102 @@
-Xbox One External HDD Tool
-===============
+# Xbox One External HDD Tool
 
-What
------
+## What
 
-Given any Xbox One configured external hard drive, modify the Boot Signature so that the NTFS partition is exposed to Windows.
+* Convert an Xbox One configured external hard drive to work with Windows.
+* Convert a GPT+NTFS configured external hard drive to work with the Xbox One.
 
-Requirements
------
+## Requirements
 
 1. Xbox One.
 2. External Hard drive greater than 256GB.
 3. Python 2.7.
 4. Administrator rights.
 
-Instructions
-------------
+## Instructions
+
+* Xbox One to Windows PC
 
 1. Use an Xbox One to correctly configure an external hard drive.
 2. Physically connect the now Xbox One configured external hard drive to a Windows PC.
-3. Run the script with the device name as the first parameter.
+2. Run the script with the appropriate paramaters (see xboxoneexternal.py --help, or below). 
 4. Power cycle the external hard drive.
  
+* Windows PC to Xbox One
 
-![cmd](http://i.imgur.com/oNZOATU.png)
+1. Use a Windows PC to correctly configure a GPT disk with an NTFS partition.
+2. Run the script with the appropriate paramaters (see xboxoneexternal.py --help, or below). 
+3. Physically connect the now Xbox One configured external hard drive to a Windows PC.
+
+![cmd](http://i.imgur.com/B6EdboT.png)
+
+## Parameters
+
+```
+usage: xboxoneexternal.py [-h] -d DRIVE [-i] [-bs] [-ds]
+
+Xbox One External HDD Tool
+
+optional arguments:
+
+-h, --help                 show this help message and exit
+-d DRIVE, --drive DRIVE    The target physical drive
+-i, --ignore               Ignore the 'Xbox One NT Disk Signature' sanity check
+-bs, --bootsignature       Update 'Boot Signature'
+-ds, --disksignature       Update 'NT Disk Signature'
+```
+
+## Examples
+
+#### Display current 'Boot Signature' and 'NT Disk Signature'
+
+```
+xboxoneexternal.py -d \\.\PhysicalDrive5
+
+NT Disk Signature:      0x12345678
+Boot Signature:         0x99cc
+```
 
 
-What to Expect
---------------
+#### Xbox One to Windows PC
+
+```
+xboxoneexternal.py -bs -d \\.\PhysicalDrive5 
+
+NT Disk Signature:      0x12345678
+Boot Signature:         0x99cc
+Operation:              Xbox One->PC
+NEW Boot Signature:     0x55aa
+
+Writing new MBR ... done.
+```
+
+#### Windows PC to Xbox One
+
+```
+xboxoneexternal.py -i -bs -d \\.\PhysicalDrive5 
+
+NT Disk Signature:      0x12345678
+Boot Signature:         0x55aa
+Operation:              PC->Xbox One
+NEW Boot Signature:     0x99cc
+
+Writing new MBR ... done.
+```
+
+#### Update 'NT Disk Signature' with the default value used by the Xbox One (sanity!)
+
+```
+xboxoneexternal.py -i -bs -ds -d \\.\PhysicalDrive5
+
+NT Disk Signature:      0x46555249
+Boot Signature:         0x55aa
+NEW NT Disk Signature:  0x12345678
+
+Writing new MBR ... done.
+```
+
+## What to Expect
+
 ```
 F:\>dir /p
  Volume in drive F is Pluto
@@ -56,8 +125,7 @@ F:.
 No subfolders exist
 ```
 
-How?
-----
+## How?
 
 The Xbox One initializes the external drive with a GPT (GUID Partition Table).
 
@@ -141,8 +209,7 @@ Offset(h)   00 01 02 03 04 05 06 07 08 09 0A 0B 0C 0D 0E 0F
 00000001F0  00 00 00 00 00 00 00 00 00 00 00 00 00 00 55 AA  ..............™Ì
 ```
 
-Notes
------
+## Notes
 
 1. Windows will offer to initialize an Xbox One formatted disk. Don't do this unless you want to start everything again.
 2. If the Boot Signature matches 0x99CC, the Xbox One will be able to read the partitions. Windows PC will not.
