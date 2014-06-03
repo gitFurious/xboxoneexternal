@@ -14,18 +14,20 @@
 
 ## Instructions
 
-* Xbox One to Windows PC
+#### Xbox One to Windows PC
 
 1. Use an Xbox One to correctly configure an external hard drive.
 2. Physically connect the now Xbox One configured external hard drive to a Windows PC.
 2. Run the script with the appropriate paramaters (see xboxoneexternal.py --help, or below). 
 4. Power cycle the external hard drive.
- 
-* Windows PC to Xbox One
+
+#### Windows PC to Xbox One
 
 1. Use a Windows PC to correctly configure a GPT disk with an NTFS partition.
 2. Run the script with the appropriate paramaters (see xboxoneexternal.py --help, or below). 
 3. Physically connect the now Xbox One configured external hard drive to a Windows PC.
+
+#### Screenshot
 
 ![cmd](http://i.imgur.com/B6EdboT.png)
 
